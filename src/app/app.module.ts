@@ -5,16 +5,49 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
+import { RestService } from './services/rest/rest.service';
+import { oAuth2Service } from './services/oAuth2/oAuth2.service';
+import { QueryParserService } from './services/queryParser/query-parser.service'
+
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { UniComponent } from './components/uni/uni.component';
+
+import { AccessTokenGuard } from './guards/access-token.guard';
+
+let routes: Routes = [
+  {
+    path: "",
+    component: HomeComponent
+  },
+  {
+    path: "uni",
+    component: UniComponent,
+    canActivate: [AccessTokenGuard]
+  }
+];
+
+export const appRoutingProviders: any[] = [
+  AccessTokenGuard
+];
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    UniComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    RestService,
+    oAuth2Service,
+    QueryParserService,
+    appRoutingProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
