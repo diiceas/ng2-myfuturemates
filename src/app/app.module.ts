@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UniComponent } from './components/uni/uni.component';
 
 import { AccessTokenGuard } from './guards/access-token.guard';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 let routes: Routes = [
   {
@@ -35,7 +36,8 @@ export const appRoutingProviders: any[] = [
   declarations: [
     AppComponent,
     HomeComponent,
-    UniComponent
+    UniComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

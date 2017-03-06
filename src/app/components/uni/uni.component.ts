@@ -14,8 +14,8 @@ export class UniComponent implements OnInit {
   access_token: string;
   students: Student[];
   pages: number;
-  currentPage: number;
-  readonly perPage = 10;
+  readonly perPage = 5;
+  currentPage: number = 1;
 
   constructor(
     private authService: oAuth2Service,
@@ -27,14 +27,12 @@ export class UniComponent implements OnInit {
     this.updateStudents();
   }
 
-  pageClickedHandler(page: number) {
-    if (page >= 1 && page <= this.pages) {
-      this.updateStudents(page);
-    }
+  pageChangedHandler(page: number) {
+    this.currentPage = page;
+    this.updateStudents(page);
   }
 
   updateStudents(page: number = 1) {
-    this.currentPage = page;
     this.restService.getStudents(
       page,
       this.access_token,
@@ -51,13 +49,5 @@ export class UniComponent implements OnInit {
       "<h1>my content</h1>",
       this.access_token
     );
-  }
-
-  createRange(number) {
-    let items = [];
-    for (var i = 1; i <= number; i++) {
-      items.push(i);
-    }
-    return items;
   }
 }

@@ -1,41 +1,19 @@
+<pre></pre>
 <div class="container" *ngIf="access_token">
-  <div class="col-md-3"></div>
-  <div class="col-md-5">
-    <h3>Students:</h3>
-    <nav aria-label="...">
-      <ul class="pagination pagination-sm">
-        <li class="page-item" [class.disabled]="this.currentPage == 1" (click)="this.pageClickedHandler(this.currentPage - 1)">
-          <a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-        </li>
-        <li *ngFor="let page of this.createRange(this.pages); let idx = index" [class.active]="(idx + 1) == this.currentPage" class="page-item">
-          <a href="javascript:void(0)" (click)="this.pageClickedHandler(page)">{{page}}</a>
-        </li>
-        <li class="page-item" [class.disabled]="this.currentPage == this.pages" (click)="this.pageClickedHandler(this.currentPage + 1)">
-          <a class="page-link" href="javascript:void(0)">Next</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="list-group">
-      <div *ngFor="let student of this.students" class="list-group-item">
-        <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a> ({{student.acf.from_country}})
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-3">
+      <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
+      <hr/>
+      <div class="text-center">
+        <div *ngFor="let student of this.students">
+          <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
+          <pre></pre>
+        </div>
       </div>
+      <hr/>      
+      <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
     </div>
-
-    <nav aria-label="...">
-      <ul class="pagination pagination-sm">
-        <li class="page-item" [class.disabled]="this.currentPage == 1" (click)="this.pageClickedHandler(this.currentPage - 1)">
-          <a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-        </li>
-        <li *ngFor="let page of this.createRange(this.pages); let idx = index" [class.active]="(idx + 1) == this.currentPage" class="page-item">
-          <a href="javascript:void(0)" (click)="this.pageClickedHandler(page)">{{page}}</a>
-        </li>
-        <li class="page-item" [class.disabled]="this.currentPage == this.pages" (click)="this.pageClickedHandler(this.currentPage + 1)">
-          <a class="page-link" href="javascript:void(0)">Next</a>
-        </li>
-      </ul>
-    </nav>
-
+    <div class="col"></div>
   </div>
-  <div class="col-md-4"></div>
 </div>

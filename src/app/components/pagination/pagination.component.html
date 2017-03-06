@@ -1,0 +1,13 @@
+<nav *ngIf="this.pages > 0" aria-label="...">
+  <ul class="pagination pagination-sm justify-content-center">
+    <li class="page-item" [class.disabled]="this.currentPage == 1" (click)="this.pageClickedHandler(this.currentPage - 1)">
+      <a class="page-link borderless" href="javascript:void(0)" tabindex="-1">Previous</a>
+    </li>
+    <li *ngFor="let page of this.createRange(this.pages); let idx = index" [class.active]="(idx + 1) == this.currentPage" class="page-item borderless">
+      <a class="page-link borderless" href="javascript:void(0)" (click)="this.pageClickedHandler(page)">{{page}}</a>
+    </li>
+    <li class="page-item borderless" [class.disabled]="this.currentPage == this.pages" (click)="this.pageClickedHandler(this.currentPage + 1)">
+      <a class="page-link borderless" href="javascript:void(0)">Next</a>
+    </li>
+  </ul>
+</nav>
