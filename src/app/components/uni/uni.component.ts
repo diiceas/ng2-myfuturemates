@@ -24,7 +24,7 @@ export class UniComponent implements OnInit {
 
   ngOnInit() {
     this.access_token = this.authService.getToken();
-    this.updateStudents();
+    this.updateStudents(this.currentPage);
   }
 
   pageChangedHandler(page: number) {
@@ -32,7 +32,7 @@ export class UniComponent implements OnInit {
     this.updateStudents(page);
   }
 
-  updateStudents(page: number = 1) {
+  updateStudents(page: number) {
     this.restService.getStudents(
       page,
       this.access_token,

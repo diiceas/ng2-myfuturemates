@@ -4,14 +4,16 @@
     <div class="col"></div>
     <div class="col-3">
       <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
-      <hr/>
-      <div class="text-center">
-        <div *ngFor="let student of this.students">
-          <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
-          <pre></pre>
+      <div *ngIf="this.pages > 0">
+        <hr/>
+        <div class="text-center">
+          <div *ngFor="let student of this.students">
+            <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
+            <pre></pre>
+          </div>
         </div>
+        <hr/>
       </div>
-      <hr/>      
       <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
     </div>
     <div class="col"></div>
