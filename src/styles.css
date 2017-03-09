@@ -3,7 +3,7 @@ a.borderless, div.borderless {
     border: 0 none; 
 }
 
-/*loader, details: https://www.w3schools.com/howto/howto_css_loader.asp*/
+/*Loader styles. Check the link for more details: https://www.w3schools.com/howto/howto_css_loader.asp*/
 .loader {
     border: 5px solid #f3f3f3; /* Light grey */
     border-top: 5px solid #3498db; /* Blue */
@@ -27,4 +27,32 @@ a.borderless, div.borderless {
     display: flex;
     align-items: center;
     top: 0;
+}
+
+/*Sticky footer styles*/
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}
+
+/* Home Page Styles*/
+.container-home-label{
+    margin-top:5em;
+}
+
+.container-home-search{
+    height:135px;
 }
