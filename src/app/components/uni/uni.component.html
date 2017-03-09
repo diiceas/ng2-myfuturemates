@@ -1,21 +1,29 @@
+<div *ngIf="!this.students" class="loaderWrap">
+  <div class="loader"></div>
+</div>
 <pre></pre>
-<div class="container" *ngIf="access_token">
+<div class="container">
   <div class="row">
-    <div class="col"></div>
+    <div class="col-md"></div>
     <div class="col col-lg-3">
-      <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
-      <div *ngIf="this.pages > 0">
-        <hr/>
-        <div class="text-center">
-          <div *ngFor="let student of this.students">
-            <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
-            <pre></pre>
-          </div>
-        </div>
-        <hr/>
-      </div>
-      <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
+      <app-students-with-paging [uni]="this.slug" (loadStudents)="this.loadStudentsHandler($event)"></app-students-with-paging>
+    </div>
+    <div class="col-md"></div>
+  </div>
+  <div *ngIf="isUniAndStudentsFound()" class="row">
+    <div class="col"></div>
+    <div class="col text-center">
+      <app-joinuni-modal [uni]="this.uni"></app-joinuni-modal>
     </div>
     <div class="col"></div>
   </div>
-</div>
+  <div class="row" *ngIf="isUniAndStudentsNotFound()" class="row">
+    <div class="col"></div>
+    <div class="col-lg-5 text-center">
+      <pre></pre>
+      <pre></pre>
+      <pre></pre> No "{{this.slug}}" university found by given request.
+      <br/> Please contact administrator: <a href="mailto:forthepost@gmail.com">forthepost@gmail.com</a>
+    </div>
+    <div class="col"></div>
+  </div>

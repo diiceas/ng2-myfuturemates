@@ -1,0 +1,10 @@
+<div *ngIf="access_token">
+  <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
+  <div *ngIf="this.pages > 0 && this.students && this.students.length > 0">
+    <hr/>
+      <app-students [students]="this.students"></app-students>
+    <hr/>
+  </div>
+  <!--<div *ngIf="!this.students">No students found</div>-->
+  <app-pagination [currentPage]="this.currentPage" [pages]="this.pages" (pageChange)="this.pageChangedHandler($event)"> </app-pagination>
+</div>

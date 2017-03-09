@@ -1,4 +1,4 @@
-<nav *ngIf="this.pages > 0" aria-label="...">
+<nav *ngIf="this.pages > 1" aria-label="...">
   <ul class="pagination pagination-sm justify-content-center">
     <li class="page-item" [class.disabled]="this.currentPage == 1" (click)="this.pageClickedHandler(this.currentPage - 1)">
       <a class="page-link borderless" href="javascript:void(0)" tabindex="-1">Previous</a>

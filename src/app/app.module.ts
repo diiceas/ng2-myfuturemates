@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { RestService } from './services/rest/rest.service';
 import { oAuth2Service } from './services/oAuth2/oAuth2.service';
 import { QueryParserService } from './services/queryParser/query-parser.service'
+import { JsonService } from './services/json/json.service';
 
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -15,6 +16,10 @@ import { UniComponent } from './components/uni/uni.component';
 
 import { AccessTokenGuard } from './guards/access-token.guard';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { StudentsComponent } from './components/students/students.component';
+import { StudentsWithPagingComponent } from './components/students-with-paging/students-with-paging.component';
+import { UniImportComponent } from './components/uni-import/uni-import.component';
+import { JoinuniComponent } from './components/modals/joinuni/joinuni.component';
 
 let routes: Routes = [
   {
@@ -25,7 +30,17 @@ let routes: Routes = [
     path: "uni",
     component: UniComponent,
     canActivate: [AccessTokenGuard]
-  }
+  },
+  {
+    path: "uni/:slug",
+    component: UniComponent,
+    canActivate: [AccessTokenGuard]
+  },
+  {
+    path: "uni-import",
+    component: UniImportComponent,
+    canActivate: [AccessTokenGuard]
+  }  
 ];
 
 export const appRoutingProviders: any[] = [
@@ -37,7 +52,11 @@ export const appRoutingProviders: any[] = [
     AppComponent,
     HomeComponent,
     UniComponent,
-    PaginationComponent
+    PaginationComponent,
+    StudentsComponent,
+    StudentsWithPagingComponent,
+    UniImportComponent,
+    JoinuniComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +68,9 @@ export const appRoutingProviders: any[] = [
     RestService,
     oAuth2Service,
     QueryParserService,
-    appRoutingProviders],
+    appRoutingProviders,
+    JsonService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

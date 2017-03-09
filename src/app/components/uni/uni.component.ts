@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { oAuth2Service } from '../../services/oAuth2/oAuth2.service';
+import { ActivatedRoute, Params } from '@angular/router';
 import { RestService } from '../../services/rest/rest.service';
+import { oAuth2Service } from '../../services/oAuth2/oAuth2.service';
+import { University } from '../../entities/university';
 import { Student } from '../../entities/student';
 
 @Component({
@@ -10,44 +12,48 @@ import { Student } from '../../entities/student';
 })
 
 export class UniComponent implements OnInit {
-  name: string;
-  access_token: string;
+  slug: string;
+  uni: University;
   students: Student[];
-  pages: number;
-  readonly perPage = 5;
-  currentPage: number = 1;
 
   constructor(
-    private authService: oAuth2Service,
-    private restService: RestService
+    private route: ActivatedRoute,
+    private restService: RestService,
+    private oAuth2Service: oAuth2Service
   ) { }
 
   ngOnInit() {
-    this.access_token = this.authService.getToken();
-    this.updateStudents(this.currentPage);
-  }
-
-  pageChangedHandler(page: number) {
-    this.currentPage = page;
-    this.updateStudents(page);
-  }
-
-  updateStudents(page: number) {
-    this.restService.getStudents(
-      page,
-      this.access_token,
-      this.perPage
-    ).then(res => {
-      this.students = res.students;
-      this.pages = res.pages;
+    this.route.params.subscribe(params => {
+      this.slug = params["slug"];
+      this.restService.getUniversity(
+        this.slug,
+        this.oAuth2Service.getToken()
+      ).then(json =>
+        this.uni = this.getUniversityByJSON(json)
+        );
     });
   }
 
-  joinUni(): void {
-    this.restService.post(
-      this.name,
-      "<h1>my content</h1>",
-      this.access_token
-    );
+  private getUniversityByJSON(json: any): University {
+    return json ? {
+      name: json.title.rendered,
+      country: json.acf.country,
+      alpha_two_code: json.acf.alpha_two_code,
+      domain: json.acf.domain,
+      web_page: json.acf.web_page
+    } : {} as University;
+  }
+
+  loadStudentsHandler(students: Student[]) {
+    //console.log(students);
+    this.students = students;
+  }
+
+  isUniAndStudentsFound(): boolean {
+    return (this.uni && this.uni.name && this.students != null);
+  }
+
+  isUniAndStudentsNotFound(): boolean {
+    return this.uni && !this.uni.name && this.students && this.students.length == 0;
   }
 }
