@@ -1,0 +1,5 @@
+<form class="form-inline form-search" autocomplete="off">
+  <input type="text" class="form-control" ng2-auto-complete #university [(ngModel)]="uni_json" name="uni_input" placeholder="University"
+    [source]="uniSource" list-formatter="uni_title" path-to-data="" min-chars="2" />    
+  <button class="rounded-0 mt-1 mt-sm-0 ml-sm-1 col-sm-2 btn btn-primary" [class.disabled]="!(this.uni_json && this.uni_json.slug)" (click)="submitBtnClicked()" >Submit</button>
+</form>

@@ -4,8 +4,8 @@ import { RestService } from '../../services/rest/rest.service';
 import { oAuth2Service } from '../../services/oAuth2/oAuth2.service';
 import { University } from '../../entities/university';
 import { ActivatedRoute, Params } from '@angular/router';
-//import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
+import { LocalConfig } from '../../local.config';
 
 @Component({
   selector: 'app-uni-import',
@@ -13,26 +13,27 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./uni-import.component.css']
 })
 export class UniImportComponent {
+  private worldUniversitiesJsonURL: string;
+  private wordpressUniversitiesJsonURL = LocalConfig.universities.wordpress.jsonURL; //for label use only. Delete later if not needed
+  private worldUniversitiesSearchApiUrl = LocalConfig.universities.world.searchApiURL; //for label use only. Delete later if not needed
+  private wordpressUniversitiesAdminUrl = LocalConfig.universities.wordpress.adminURL; //for label use only. Delete later if not needed
+  private readonly countToImport = 50;
 
   constructor(
     private jsonService: JsonService,
     private restService: RestService,
     private oAuth2Service: oAuth2Service,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.worldUniversitiesJsonURL = jsonService.worldUniversitiesJsonURL;
+  }
 
   import() {
-    this.jsonService.getJSON()
-      // .map(
-      // res => {
-      //console.log(res)        
-      //this.addNewUni(res[0] as University);
-      //})
+    this.jsonService.getUniversities(this.countToImport)
       .subscribe(result => this.addUniArray(result as University[]));
   }
 
   addUniArray(universities: University[]) {
-    //console.log(universities);
     universities.forEach(uni => this.addNewUni(uni));
   }
 
@@ -41,20 +42,5 @@ export class UniImportComponent {
       this.oAuth2Service.getToken(),
       uni
     );
-
-    //  this.restService.post("bbbbbbbbbbbbbbbbbbb", "aaaaaaaaa", this.oAuth2Service.getToken());
-    //console.log(uni);
   }
-
-
-  // ngOnInit(): void {
-  //   this.route.fragment.subscribe(x => {
-  //     console.log(x);
-  //   });
-
-  //   this.route.params
-  //     .map((params: Params) => params["id"])
-  //     .subscribe(result => console.log(result));
-  // }
-
 }

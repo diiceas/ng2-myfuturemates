@@ -21,6 +21,9 @@ import { StudentsWithPagingComponent } from './components/students-with-paging/s
 import { UniImportComponent } from './components/uni-import/uni-import.component';
 import { JoinuniComponent } from './components/modals/joinuni/joinuni.component';
 
+import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
+import { UniSearchComponent } from './components/forms/uni-search/uni-search.component';
+
 let routes: Routes = [
   {
     path: "",
@@ -40,7 +43,7 @@ let routes: Routes = [
     path: "uni-import",
     component: UniImportComponent,
     canActivate: [AccessTokenGuard]
-  }  
+  }
 ];
 
 export const appRoutingProviders: any[] = [
@@ -56,13 +59,15 @@ export const appRoutingProviders: any[] = [
     StudentsComponent,
     StudentsWithPagingComponent,
     UniImportComponent,
-    JoinuniComponent
+    JoinuniComponent,
+    UniSearchComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    Ng2AutoCompleteModule
   ],
   providers: [
     RestService,

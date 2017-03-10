@@ -1,1 +1,18 @@
-<button (click)="import();">Import</button>
+<div class="text-center">
+    <pre></pre>
+    <pre></pre>
+    <pre></pre>
+    <pre></pre>
+    <h1>Import Universities to Wordpress database.</h1>
+    <br/>     
+    <a target="_blank" href="{{worldUniversitiesJsonURL}}">World Universities JSON (source for the import)</a>    
+    <br/>        
+    <a target="_blank" href="{{worldUniversitiesSearchApiUrl}}">World Universities Search API</a>
+    <br/>    
+    <a target="_blank" href="{{wordpressUniversitiesAdminUrl}}">Imported universities (Admin)</a>
+    <br/>    
+    <a target="_blank" href="{{wordpressUniversitiesJsonURL}}">Imported universities (JSON)</a>
+    <pre></pre>
+    <pre></pre>
+    <button (click)="import();">Import (first {{countToImport}})</button>
+</div>
