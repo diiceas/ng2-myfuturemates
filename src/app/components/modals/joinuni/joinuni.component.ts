@@ -1,6 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { University } from '../../../entities/university';
 import { FormBuilder, Validators } from '@angular/forms';
+import { RestService } from '../../../services/rest/rest.service';
+import { oAuth2Service } from '../../../services/oAuth2/oAuth2.service';
+import { Student } from '../../../entities/student';
+
+declare var jQuery: any;
 
 @Component({
   selector: 'app-joinuni-modal',
@@ -9,16 +14,34 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class JoinuniComponent implements OnInit {
   @Input() uni: University;
+  @Output() updateUniversity = new EventEmitter<University>();
   default_start_year = 2017;
 
-  constructor(public fb: FormBuilder) { }
+  constructor(
+    public fb: FormBuilder,
+    private restService: RestService,
+    private oAuth2Service: oAuth2Service
+  ) { }
 
   ngOnInit() {
+    this.clearForm();
+  }
+
+  clearForm() {
     this.addStudentForm.setValue({
       start_year: this.default_start_year,
       name: "",
       facebook_url: "",
       from_country: ""
+    });
+  }
+
+  prepopulate() {
+    this.addStudentForm.setValue({
+      start_year: this.default_start_year,
+      name: "Yury TATSENKA",
+      facebook_url: "https://www.facebook.com/yury.tatsenka",
+      from_country: "Belarus"
     });
   }
 
@@ -30,7 +53,38 @@ export class JoinuniComponent implements OnInit {
   });
 
   submittedFormHandler(event) {
-    console.log(this.addStudentForm.value);
+    jQuery("#myModal").modal("hide");
+
+    let student = {
+      acf: {
+        facebook_url: this.addStudentForm.value.facebook_url,
+        from_country: this.addStudentForm.value.from_country
+      },
+      title: {
+        rendered: this.addStudentForm.value.name
+      }
+    } as Student;
+
+    this.restService.addStudent(
+      this.oAuth2Service.getToken(),
+      student
+    ).then(result => {
+      console.log("new student id");
+      console.log(result.id);
+      if (result.id) {
+        this.restService.addStudentToUniversity(
+          this.oAuth2Service.getToken(),
+          this.uni,
+          result.id
+        ).then(newStudent => {
+          let university: University;
+          university = newStudent;
+          this.clearForm();
+          this.updateUniversity.emit(university);
+          console.log("university has been emmitted");
+        })
+      }
+    });
   }
 }
 

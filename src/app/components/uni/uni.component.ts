@@ -14,7 +14,6 @@ import { Student } from '../../entities/student';
 export class UniComponent implements OnInit {
   slug: string;
   uni: University;
-  students: Student[];
 
   constructor(
     private route: ActivatedRoute,
@@ -28,32 +27,21 @@ export class UniComponent implements OnInit {
       this.restService.getUniversity(
         this.slug,
         this.oAuth2Service.getToken()
-      ).then(json =>
-        this.uni = this.getUniversityByJSON(json)
-        );
+      ).then(uni => this.uni = uni);
     });
   }
 
-  private getUniversityByJSON(json: any): University {
-    return json ? {
-      name: json.title.rendered,
-      country: json.acf.country,
-      alpha_two_code: json.acf.alpha_two_code,
-      domain: json.acf.domain,
-      web_page: json.acf.web_page
-    } : {} as University;
-  }
-
-  loadStudentsHandler(students: Student[]) {
-    //console.log(students);
-    this.students = students;
-  }
-
   isUniAndStudentsFound(): boolean {
-    return (this.uni && this.uni.name && this.students != null);
+    return (this.uni && this.uni.name != null);
   }
 
   isUniAndStudentsNotFound(): boolean {
-    return this.uni && !this.uni.name && this.students && this.students.length == 0;
+    return this.uni && !this.uni.name;
+  }
+
+  updateUniversityHandler(university: University) {
+    console.log("Updated university:");
+    console.log(university);
+    this.uni = university;
   }
 }
