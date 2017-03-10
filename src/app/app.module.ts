@@ -24,6 +24,8 @@ import { JoinuniComponent } from './components/modals/joinuni/joinuni.component'
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { UniSearchComponent } from './components/forms/uni-search/uni-search.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 let routes: Routes = [
   {
     path: "",
@@ -67,7 +69,8 @@ export const appRoutingProviders: any[] = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(routes),
-    Ng2AutoCompleteModule
+    Ng2AutoCompleteModule,
+    ReactiveFormsModule
   ],
   providers: [
     RestService,

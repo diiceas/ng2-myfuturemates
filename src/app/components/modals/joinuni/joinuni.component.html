@@ -11,13 +11,37 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <form [formGroup]="addStudentForm" (ngSubmit)="submittedFormHandler($event)" class="text-left">
+        <div class="modal-body">          
+          <div class="form-group">
+            <label>Student name:</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="Your Fullname" required>
+          </div>
+          <div class="form-group">
+            <label>Country:</label>
+            <input formControlName="from_country" type="text" class="form-control" placeholder="Your Country" required>
+          </div>
+          <div class="form-group">
+            <label>Facebook URL</label>
+            <input formControlName="facebook_url" type="text" class="form-control" placeholder="Facebook URL" required>
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <input formControlName="start_year" type="text" class="form-control" placeholder="Start Year" disabled>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Join</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+
+<!--<form [formGroup]="loginForm" (ngSubmit)="doLogin($event)">
+  <input formControlName="email" type="email" placeholder="Your email">
+  <input formControlName="password" type="password" placeholder="Your password">
+  <button type="submit">Log in</button>
+</form>-->
