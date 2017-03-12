@@ -1,6 +1,7 @@
 <div class="text-center">
   <div *ngFor="let student of this.students">
-    <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
-    <pre></pre>
+    <h5>
+      <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
+    </h5>
   </div>
 </div>

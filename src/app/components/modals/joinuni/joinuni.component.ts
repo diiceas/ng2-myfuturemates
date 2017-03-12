@@ -16,6 +16,8 @@ export class JoinuniComponent implements OnInit {
   @Input() uni: University;
   @Output() updateUniversity = new EventEmitter<University>();
   default_start_year = 2017;
+  joined = false;
+  student: Student;
 
   constructor(
     public fb: FormBuilder,
@@ -55,7 +57,7 @@ export class JoinuniComponent implements OnInit {
   submittedFormHandler(event) {
     jQuery("#myModal").modal("hide");
 
-    let student = {
+    this.student = {
       acf: {
         facebook_url: this.addStudentForm.value.facebook_url,
         from_country: this.addStudentForm.value.from_country
@@ -67,7 +69,7 @@ export class JoinuniComponent implements OnInit {
 
     this.restService.addStudent(
       this.oAuth2Service.getToken(),
-      student
+      this.student
     ).then(result => {
       console.log("new student id");
       console.log(result.id);
@@ -81,6 +83,7 @@ export class JoinuniComponent implements OnInit {
           university = newStudent;
           this.clearForm();
           this.updateUniversity.emit(university);
+          this.joined = true;
           console.log("university has been emmitted");
         })
       }

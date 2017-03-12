@@ -28,6 +28,5 @@ export class StudentsWithPagingComponent implements OnInit {
 
   pageChangedHandler(page: number) {
     this.currentPage = page;
-
   }
-  }
+}
