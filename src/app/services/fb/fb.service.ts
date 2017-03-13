@@ -7,18 +7,7 @@ declare const FB: any;
 
 @Injectable()
 export class FbService {
-
-  private authSubject = new BehaviorSubject<FbAuthResult>({
-    status: "initialized",
-    authResponse: {
-      accessToken: null,
-      expiresIn: -1,
-      signedRequest: null,
-      userID: -1
-    }
-  });
-  authEventsStream = this.authSubject.asObservable();
-
+ 
   constructor() { }
 
   login(): Promise<any> {
@@ -58,14 +47,11 @@ export class FbService {
     });
   }
 
-  getLoginStatus(): void {
-    FB.getLoginStatus(response => {
-     this.authSubject.next(response);
-   });
+  getLoginStatus(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      FB.getLoginStatus(response => {
+        resolve(response);        
+      })
+    });
   }
-
-  // FB.AppEvents.logPageView();
-  // FB.getLoginStatus(response => {
-  //   this.statusChangeCallback(response);
-  // });
 }
