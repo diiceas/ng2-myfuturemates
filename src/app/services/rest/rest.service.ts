@@ -37,24 +37,11 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  getStudents(page: number, token: string, perPage: number = 10): Promise<{ students: Student[], pages: number }> {
-    let url = this.wp_rest_api_url + "/students?per_page=" + perPage + "&page=" + page;
-    return this.http.get(url)
-      .toPromise()
-      .then(function (rest: Response) {
-        let students = rest.json() as Student[];
-        let pages = +rest.headers.get("X-WP-TotalPages");
-
-        return { students, pages };
-      })
-      .catch(this.handleError);
-  }
-
-  addStudent(token: any, student: any): Promise<any> {
+  addStudent(token: any, student: Student): Promise<any> {
     let url = this.students_url + "?access_token=" + token;
     let fields = {
       "from_country": student.acf.from_country,
-      "email": student.acf.email,      
+      "email": student.acf.email,
       "picture_url": student.acf.picture_url,
       "facebook_url": student.acf.facebook_url,
       "facebook_id": student.acf.facebook_id,
@@ -98,7 +85,11 @@ export class RestService {
         id: student.ID,
         acf: {
           facebook_url: student.acf.facebook_url,
-          from_country: student.acf.from_country
+          from_country: student.acf.from_country,
+          email: student.acf.email,
+          picture_url: student.acf.picture_url,
+          facebook_id: student.acf.facebook_id,
+          gender: student.acf.gender       
         },
         title: {
           rendered: student.post_title

@@ -1,7 +1,29 @@
-<div class="text-center">
-  <div *ngFor="let student of this.students">
-    <h5>
-      <a target="_blank" href="{{student.acf.facebook_url}}">{{student.title.rendered}}</a>&nbsp;({{student.acf.from_country}})
-    </h5>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="text-center d-flex justify-content-center flex-wrap mt-3">
+        <div *ngFor="let student of this.students" class="student mt-2 mb-2">
+          <!--facebook_id: {{student.acf.facebook_id}},
+      <br/>
+      gender: {{student.acf.gender}}, 
+      <br/>
+      student.id: {{student.id}}
+      <br/>-->
+          <!--student.email: -->
+          <h5>
+            {{student.title.rendered}}
+          </h5>
+          <img class="rounded-circle" src="{{student.acf.picture_url}}" />
+          <br/>
+          <a target="_blank" href="{{student.acf.facebook_url}}">
+            <i class="fa fa-facebook-square" aria-hidden="true"></i>
+          </a>
+          <a target="_blank" class="ml-1" href="mailto:{{student.acf.email}}">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+          </a>
+          <!--&nbsp;({{student.acf.from_country}})-->
+        </div>
+      </div>
+    </div>
   </div>
 </div>

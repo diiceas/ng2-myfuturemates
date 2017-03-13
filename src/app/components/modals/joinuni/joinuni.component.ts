@@ -87,23 +87,24 @@ export class JoinuniComponent implements OnInit {
     name: string,
     picture_url: string,
     facebook_url: string,
-    facebook_id: number,
+    facebook_id: string,
     gender: string,
     uni: University
   ) {
     let student = {
+      id: -1,
       acf: {
         from_country: "?",
         email: email,
         picture_url: picture_url,
         facebook_url: facebook_url,
         facebook_id: facebook_id,
-        gender: gender
+        gender: gender,        
       },
       title: {
         rendered: name
       }
-    };
+    } as Student;
 
     console.log(student);
 

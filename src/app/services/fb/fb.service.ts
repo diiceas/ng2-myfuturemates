@@ -29,7 +29,7 @@ export class FbService {
 
   me(): Promise<any> {
     let fields = `
-      picture.width(200),
+      picture.width(100),
       id,
       cover,
       name,
@@ -56,14 +56,12 @@ export class FbService {
       xfbml: true,  // parse social plugins on this page
       version: 'v2.5' // use graph api version 2.5
     });
-
-    FB.Event.subscribe('auth.statusChange', resp => {
-      this.authSubject.next(resp);
-    });
   }
 
   getLoginStatus(): void {
-    FB.getLoginStatus();
+    FB.getLoginStatus(response => {
+     this.authSubject.next(response);
+   });
   }
 
   // FB.AppEvents.logPageView();

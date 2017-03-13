@@ -123,6 +123,10 @@ body {
      color: #FFFFFF;
 }
 
+.social-icons a {
+    text-decoration: none;
+ }
+
 /*Medium devices (tablets, less than 992px)*/
 @media (max-width: 991px) {
     body {
@@ -142,6 +146,5 @@ body {
         margin-bottom: 180px;
     }
 }
-
 
 

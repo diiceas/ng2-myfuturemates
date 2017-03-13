@@ -1,0 +1,9 @@
+  .student a {
+    color: #404a63;
+    text-decoration: none;
+    font-size:1.4em;
+  }
+
+  .student {
+      width: 200px;
+  }

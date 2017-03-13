@@ -23,8 +23,9 @@ export class FbComponent implements OnInit {
   ) { }
 
   login() {
-    this.fbService.login().then(result => {
-      if (result.status === "connected") {
+    this.fbService.login().then(result => {      
+       this.connected = result.status === "connected";
+      if (this.connected) {
         this.fbService.me().then(res =>
           this.loginEvent.emit(res)
         );

@@ -11,21 +11,15 @@
       <a target="_blank" href="{{this.uni?.web_page}}">{{this.uni?.web_page}}</a>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md"></div>
-    <div *ngIf="this.uni?.students" class="col col-lg-3 text-center">
-      <pre></pre>
-      <pre></pre>
-      <span>Students:</span>
-      <pre></pre>
+  <div class="">
+    <div *ngIf="this.uni?.students" class="">
       <app-students-with-paging *ngIf="this.uni?.students" [students]="this.uni?.students"></app-students-with-paging>
     </div>
-    <div class="col-md"></div>
   </div>
   <div *ngIf="isUniAndStudentsFound()" class="row">
     <div class="col"></div>
     <div class="col text-center">
-      <p *ngIf="this.uni && this.uni.students.length == 0">
+      <p *ngIf="this.uni && this.uni.students.length == 0" class="mt-4">
         Please join and become first student!
       </p>
       <pre></pre>

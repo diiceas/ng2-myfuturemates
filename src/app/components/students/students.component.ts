@@ -12,6 +12,6 @@ export class StudentsComponent implements OnInit {
   constructor() { }
   
   ngOnInit() {
-    //console.log("Students" + this.students);
+    // console.log(this.students);
    }
 }
