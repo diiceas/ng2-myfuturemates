@@ -25,6 +25,7 @@ import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { UniSearchComponent } from './components/forms/uni-search/uni-search.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { FbComponent } from './components/fb/fb.component';
 
 let routes: Routes = [
   {
@@ -62,7 +63,8 @@ export const appRoutingProviders: any[] = [
     StudentsWithPagingComponent,
     UniImportComponent,
     JoinuniComponent,
-    UniSearchComponent
+    UniSearchComponent,
+    FbComponent
   ],
   imports: [
     BrowserModule,

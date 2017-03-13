@@ -1,9 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { University } from '../../../entities/university';
 import { FormBuilder, Validators } from '@angular/forms';
 import { RestService } from '../../../services/rest/rest.service';
 import { oAuth2Service } from '../../../services/oAuth2/oAuth2.service';
 import { Student } from '../../../entities/student';
+import { FbUserInfo } from '../../../entities/fbUserInfo';
 
 declare var jQuery: any;
 
@@ -15,9 +22,9 @@ declare var jQuery: any;
 export class JoinuniComponent implements OnInit {
   @Input() uni: University;
   @Output() updateUniversity = new EventEmitter<University>();
+
   default_start_year = 2017;
   joined = false;
-  student: Student;
 
   constructor(
     public fb: FormBuilder,
@@ -51,25 +58,58 @@ export class JoinuniComponent implements OnInit {
     name: ["", Validators.required],
     from_country: ["", Validators.required],
     facebook_url: ["", Validators.required],
-    start_year: ["", Validators.required]
+    start_year: [{ value: '', disabled: true }, Validators.required]
   });
 
-  submittedFormHandler(event) {
-    jQuery("#myModal").modal("hide");
+  loginEventHandler(userInfo: any) {
+    let email = userInfo.email;
+    let name = userInfo.name;
+    let picture_url = userInfo.picture.data.url;
+    let facebook_url = userInfo.link;
+    let facebook_id = userInfo.id;
+    let gender = userInfo.gender;
 
-    this.student = {
+    let uni = this.uni;
+
+    this.addStudentToUni(
+      email,
+      name,
+      picture_url,
+      facebook_url,
+      facebook_id,
+      gender,
+      uni
+    );
+  }
+
+  addStudentToUni(
+    email: string,
+    name: string,
+    picture_url: string,
+    facebook_url: string,
+    facebook_id: number,
+    gender: string,
+    uni: University
+  ) {
+    let student = {
       acf: {
-        facebook_url: this.addStudentForm.value.facebook_url,
-        from_country: this.addStudentForm.value.from_country
+        from_country: "?",
+        email: email,
+        picture_url: picture_url,
+        facebook_url: facebook_url,
+        facebook_id: facebook_id,
+        gender: gender
       },
       title: {
-        rendered: this.addStudentForm.value.name
+        rendered: name
       }
-    } as Student;
+    };
+
+    console.log(student);
 
     this.restService.addStudent(
       this.oAuth2Service.getToken(),
-      this.student
+      student
     ).then(result => {
       console.log("new student id");
       console.log(result.id);
@@ -88,6 +128,6 @@ export class JoinuniComponent implements OnInit {
         })
       }
     });
-  }
+  }  
 }
 

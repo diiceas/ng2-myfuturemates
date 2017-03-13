@@ -39,7 +39,6 @@ export class RestService {
 
   getStudents(page: number, token: string, perPage: number = 10): Promise<{ students: Student[], pages: number }> {
     let url = this.wp_rest_api_url + "/students?per_page=" + perPage + "&page=" + page;
-    //console.log("url:" + url);
     return this.http.get(url)
       .toPromise()
       .then(function (rest: Response) {
@@ -51,12 +50,15 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  addStudent(token: any, student: Student): Promise<any> {
+  addStudent(token: any, student: any): Promise<any> {
     let url = this.students_url + "?access_token=" + token;
-
     let fields = {
-      "facebook_url": student.acf.facebook_url,
       "from_country": student.acf.from_country,
+      "email": student.acf.email,      
+      "picture_url": student.acf.picture_url,
+      "facebook_url": student.acf.facebook_url,
+      "facebook_id": student.acf.facebook_id,
+      "gender": student.acf.gender
     };
 
     let body = {
@@ -66,6 +68,8 @@ export class RestService {
     };
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
+
+    console.log(body);
 
     return this.http.post(url, body, headers)
       .toPromise()
@@ -82,11 +86,8 @@ export class RestService {
       .toPromise()
       .then(results => {
         let parsedUni = this.parseUniJson(results.json()[0]);
-        console.log(parsedUni)
         return parsedUni;
-      }
-      )
-      .catch(this.handleError);
+      }).catch(this.handleError);
   }
 
   private parseUniJson(json): University {
@@ -139,7 +140,6 @@ export class RestService {
     return this.http.post(url, body, headers)
       .toPromise()
       .then(result => {
-        //console.log("University has been added. Additional info: " + result);
         return result.json();
       })
       .catch(this.handleError);
@@ -150,9 +150,6 @@ export class RestService {
 
     let mappedStudents = uni.students.map(item => item.id);
     mappedStudents.push(student_id);
-
-    // console.log("Mapped students: mappedStudents");
-    // console.log(mappedStudents[0]);
 
     let fields = {
       "students": mappedStudents
@@ -169,7 +166,6 @@ export class RestService {
     return this.http.post(url, body, headers)
       .toPromise()
       .then(result => {
-        //console.log("University has been added. Additional info: " + result);
         return this.parseUniJson(result.json());
       })
       .catch(this.handleError);

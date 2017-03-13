@@ -1,45 +1,5 @@
-<button *ngIf="!this.joined" data-toggle="modal" class="btn btn-primary" data-target="#myModal">
-  Join
-</button>
 <div *ngIf="this.joined" class="alert alert-success">
   <strong>Well done!</strong> You have been successfully joined to the community of {{this.uni?.name}}!
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Join {{this.uni?.name}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="addStudentForm" (ngSubmit)="submittedFormHandler($event)" class="text-left">
-        <div class="modal-body">          
-          <div class="form-group">
-            <label>Student name:</label>
-            <input formControlName="name" type="text" class="form-control" placeholder="Your Fullname" required>
-          </div>
-          <div class="form-group">
-            <label>Country:</label>
-            <input formControlName="from_country" type="text" class="form-control" placeholder="Your Country" required>
-          </div>
-          <div class="form-group">
-            <label>Facebook URL</label>
-            <input formControlName="facebook_url" type="text" class="form-control" placeholder="Facebook URL" required>
-          </div>
-          <div class="form-group">
-            <label>Year</label>
-            <input formControlName="start_year" type="text" class="form-control" placeholder="Start Year" disabled>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-secondary" (click)="this.prepopulate()">Prepopulate</button>
-          <button type="submit" class="btn btn-primary">Join</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+<app-fb (loginEvent)="loginEventHandler($event)"></app-fb>
