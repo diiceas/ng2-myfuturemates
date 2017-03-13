@@ -23,8 +23,8 @@ export class JoinuniComponent implements OnInit {
   @Input() uni: University;
   @Output() updateUniversity = new EventEmitter<University>();
 
-  default_start_year = 2017;
-  joined = false;
+  private showSuccessMessage = false;
+  private showLoader = false;
 
   constructor(
     public fb: FormBuilder,
@@ -33,35 +33,12 @@ export class JoinuniComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.clearForm();
   }
 
-  clearForm() {
-    this.addStudentForm.setValue({
-      start_year: this.default_start_year,
-      name: "",
-      facebook_url: "",
-      from_country: ""
-    });
-  }
-
-  prepopulate() {
-    this.addStudentForm.setValue({
-      start_year: this.default_start_year,
-      name: "Yury TATSENKA",
-      facebook_url: "https://www.facebook.com/yury.tatsenka",
-      from_country: "Belarus"
-    });
-  }
-
-  public addStudentForm = this.fb.group({
-    name: ["", Validators.required],
-    from_country: ["", Validators.required],
-    facebook_url: ["", Validators.required],
-    start_year: [{ value: '', disabled: true }, Validators.required]
-  });
 
   loginEventHandler(userInfo: any) {
+    this.showLoader = true;
+    
     let email = userInfo.email;
     let name = userInfo.name;
     let picture_url = userInfo.picture.data.url;
@@ -121,14 +98,13 @@ export class JoinuniComponent implements OnInit {
           result.id
         ).then(newStudent => {
           let university: University;
-          university = newStudent;
-          this.clearForm();
-          this.updateUniversity.emit(university);
-          this.joined = true;
+          university = newStudent;          
+          this.updateUniversity.emit(university);          
+          this.showLoader = false;
+          this.showSuccessMessage = true;
           console.log("university has been emmitted");
         })
       }
     });
   }  
 }
-
