@@ -6,4 +6,4 @@
   <div class="loader"></div>
 </div>
 
-<app-fb (loginEvent)="loginEventHandler($event)"></app-fb>
+<button *ngIf="!this.connected" class="btn btn-primary" (click)="this.login()">Join</button>

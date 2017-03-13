@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   Output,
   EventEmitter
@@ -11,34 +10,34 @@ import { RestService } from '../../../services/rest/rest.service';
 import { oAuth2Service } from '../../../services/oAuth2/oAuth2.service';
 import { Student } from '../../../entities/student';
 import { FbUserInfo } from '../../../entities/fbUserInfo';
+import { FbService } from "../../../services/fb/fb.service";
 
 declare var jQuery: any;
 
 @Component({
   selector: 'app-joinuni-modal',
   templateUrl: './joinuni.component.html',
-  styleUrls: ['./joinuni.component.css']
+  styleUrls: ['./joinuni.component.css'],
+  providers: [FbService]
 })
-export class JoinuniComponent implements OnInit {
+export class JoinuniComponent {
   @Input() uni: University;
   @Output() updateUniversity = new EventEmitter<University>();
 
   private showSuccessMessage = false;
   private showLoader = false;
+  private connected = true;
 
   constructor(
     public fb: FormBuilder,
     private restService: RestService,
-    private oAuth2Service: oAuth2Service
+    private oAuth2Service: oAuth2Service,
+    private fbService: FbService
   ) { }
-
-  ngOnInit() {
-  }
-
 
   loginEventHandler(userInfo: any) {
     this.showLoader = true;
-    
+
     let email = userInfo.email;
     let name = userInfo.name;
     let picture_url = userInfo.picture.data.url;
@@ -76,7 +75,7 @@ export class JoinuniComponent implements OnInit {
         picture_url: picture_url,
         facebook_url: facebook_url,
         facebook_id: facebook_id,
-        gender: gender,        
+        gender: gender,
       },
       title: {
         rendered: name
@@ -98,13 +97,32 @@ export class JoinuniComponent implements OnInit {
           result.id
         ).then(newStudent => {
           let university: University;
-          university = newStudent;          
-          this.updateUniversity.emit(university);          
+          university = newStudent;
+          this.updateUniversity.emit(university);
           this.showLoader = false;
           this.showSuccessMessage = true;
           console.log("university has been emmitted");
         })
       }
     });
-  }  
+  }
+
+  login() {
+    this.fbService.login().then(result => {
+      this.connected = result.status === "connected";
+      if (this.connected) {
+        this.fbService.me().then(res =>
+          this.loginEventHandler(res)
+        );
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.fbService.init();
+    this.fbService.getLoginStatus().then(result => {
+      this.connected = result.status === "connected";
+      console.log(result);
+    });
+  }
 }
