@@ -127,11 +127,12 @@ body {
     text-decoration: none;
  }
 
+
 /*Medium devices (tablets, less than 992px)*/
 @media (max-width: 991px) {
     body {
     /* Margin bottom by footer height */
-        margin-bottom: 150px;
+        margin-bottom: 200px;
     }
 }
 
@@ -143,8 +144,14 @@ body {
 
     body {
     /* Margin bottom by footer height */
-        margin-bottom: 180px;
+        margin-bottom: 250px;
     }
 }
 
+@media (max-width: 300px) {
+    body {
+    /* Margin bottom by footer height */
+        margin-bottom: 250px;
+    }
+}
 

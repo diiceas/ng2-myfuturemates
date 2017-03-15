@@ -18,22 +18,23 @@ export class AccessTokenGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        let queryParams = this.queryService.Parse(location.href);
         let access_token = localStorage.getItem("access_token");
         if (!access_token) {
-            let code = queryParams["code"];
+
+            let queryParams = this.queryService.Parse(location.href);
             let redirect_uri = localStorage.getItem("redirect_uri");
+
+            let code = queryParams["code"];
             if (code && redirect_uri) {
                 this.oAuth2Service.generateNewToken(code, redirect_uri).then(res => {
-                    localStorage.removeItem("redirect_uri");
                     location.href = redirect_uri;
+                    return false;
                 });
             }
             else {
                 let authorize_path = LocalConfig.host + "/oauth/authorize/";
                 let client_id = LocalConfig.oAuth2.client_id;
-                let redirect_uri = location.href;
-                localStorage.setItem("redirect_uri", redirect_uri);
+
                 let response_type = "code";
 
                 let redirectUrl = authorize_path;
@@ -42,9 +43,11 @@ export class AccessTokenGuard implements CanActivate {
                 redirectUrl += "&response_type=" + response_type;
 
                 location.href = redirectUrl;
+                return false;
             }
-        }
-
-        return true;
+        } else {
+            localStorage.removeItem("redirect_uri");
+            return true;
+        }        
     }
 }

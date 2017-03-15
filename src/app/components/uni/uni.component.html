@@ -16,16 +16,17 @@
       <app-students-with-paging *ngIf="this.uni?.students" [students]="this.uni?.students"></app-students-with-paging>
     </div>
   </div>
-  <div *ngIf="isUniAndStudentsFound()" class="row">
-    <div class="col"></div>
-    <div class="col text-center">
+  <div *ngIf="isUniAndStudentsFound()" class="row justify-content-center">
+    <!--<div class="col"></div>-->
+    <div class="col col-md-5 text-center">
       <p *ngIf="this.uni && this.uni.students.length == 0" class="mt-4">
         Please join and become first student!
       </p>
       <pre></pre>
+      <button *ngIf="!isJoinedToUni" class="btn btn-primary" (click)="this.login()">Join</button>
       <app-joinuni-modal (updateUniversity)="updateUniversityHandler($event)" [uni]="this.uni"></app-joinuni-modal>
     </div>
-    <div class="col"></div>
+    <!--<div class="col"></div>-->
   </div>
   <div class="row" *ngIf="isUniAndStudentsNotFound()" class="row">
     <div class="col"></div>
@@ -37,3 +38,4 @@
     </div>
     <div class="col"></div>
   </div>
+</div>

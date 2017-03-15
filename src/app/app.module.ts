@@ -63,7 +63,6 @@ export const appRoutingProviders: any[] = [
     UniImportComponent,
     JoinuniComponent,
     UniSearchComponent,
-    // FbComponent
   ],
   imports: [
     BrowserModule,

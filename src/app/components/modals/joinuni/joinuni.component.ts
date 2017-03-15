@@ -119,7 +119,7 @@ export class JoinuniComponent {
   }
 
   ngOnInit() {
-    this.fbService.init();
+    //this.fbService.init();
     this.fbService.getLoginStatus().then(result => {
       this.connected = result.status === "connected";
       console.log(result);
