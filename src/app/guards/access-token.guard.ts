@@ -9,6 +9,8 @@ import { oAuth2Service } from '../services/oAuth2/oAuth2.service';
 import { QueryParserService } from '../services/queryParser/query-parser.service';
 import { LocalConfig } from '../local.config';
 
+declare var jQuery: any;
+
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
     constructor(
@@ -18,12 +20,19 @@ export class AccessTokenGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        let nonce = jQuery("#nonce").val();
+
+        if (nonce){
+            return true;
+        }
+
+        console.log("nonce not found");
         let access_token = localStorage.getItem("access_token");
         if (!access_token) {
 
             let queryParams = this.queryService.Parse(location.href);
             let redirect_uri = localStorage.getItem("redirect_uri");
-            if (redirect_uri == null){
+            if (redirect_uri == null) {
                 redirect_uri = location.href;
                 localStorage.setItem("redirect_uri", redirect_uri);
             }
@@ -52,6 +61,6 @@ export class AccessTokenGuard implements CanActivate {
         } else {
             localStorage.removeItem("redirect_uri");
             return true;
-        }        
+        }
     }
 }

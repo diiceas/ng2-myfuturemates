@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { JsonService } from '../../services/json/json.service';
-import { RestService } from '../../services/rest/rest.service';
-import { oAuth2Service } from '../../services/oAuth2/oAuth2.service';
-import { University } from '../../entities/university';
-import { ActivatedRoute, Params } from '@angular/router';
-import 'rxjs/add/operator/map';
-import { LocalConfig } from '../../local.config';
+import { Component, OnInit } from '@angular/core'
+import { JsonService } from '../../services/json/json.service'
+import { RestService } from '../../services/rest/rest.service'
+import { oAuth2Service } from '../../services/oAuth2/oAuth2.service'
+import { University } from '../../entities/university'
+import { ActivatedRoute, Params } from '@angular/router'
+import 'rxjs/add/operator/map'
+import { LocalConfig } from '../../local.config'
+
+declare var jQuery:any;
 
 @Component({
   selector: 'app-uni-import',
@@ -18,6 +20,7 @@ export class UniImportComponent {
   private worldUniversitiesSearchApiUrl = LocalConfig.universities.world.searchApiURL; //for label use only. Delete later if not needed
   private wordpressUniversitiesAdminUrl = LocalConfig.universities.wordpress.adminURL; //for label use only. Delete later if not needed
   private readonly countToImport = 50;
+  private nonce: string;
 
   constructor(
     private jsonService: JsonService,
@@ -40,7 +43,8 @@ export class UniImportComponent {
   addNewUni(uni: University) {
     this.restService.addUniversity(
       this.oAuth2Service.getToken(),
-      uni
+      uni,
+      this.nonce
     );
   }
 }

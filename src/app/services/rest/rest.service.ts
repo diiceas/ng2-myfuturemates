@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, URLSearchParams } from '@angular/http';
+import { Http, Headers, Response, URLSearchParams, RequestOptions } from '@angular/http';
 import { oAuth2Service } from '../oAuth2/oAuth2.service';
 import { LocalConfig } from '../../local.config';
 import { Student } from '../../entities/student';
@@ -18,27 +18,16 @@ export class RestService {
   private access_token: string;
 
   constructor(private http: Http, private oAuth2Service: oAuth2Service) {
-    this.posts_url = this.wp_rest_api_url + "/posts";
-    this.post_url = this.posts_url + "/76"
     this.uni_url = this.wp_rest_api_url + "/universities";
     this.students_url = this.wp_rest_api_url + "/students";
   }
 
-  post(title: string, content: string, token: string): Promise<string> {
-    let url = this.post_url + "?access_token=" + token;
-    let searchParams = new URLSearchParams();
-    searchParams.set("title", title);
-    searchParams.set("content", content);
-    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+  addStudent(token: any, student: Student, nonce: string): Promise<Student> {
+    let url = this.students_url;
 
-    return this.http.post(url, searchParams, headers)
-      .toPromise()
-      .then(rest => rest.json().data)
-      .catch(this.handleError);
-  }
+    if (token && token.length > 0)
+      url += "?access_token=" + token;
 
-  addStudent(token: any, student: Student): Promise<Student> {
-    let url = this.students_url + "?access_token=" + token;
     let fields = {
       "from_country": student.acf.from_country,
       "email": student.acf.email,
@@ -54,11 +43,14 @@ export class RestService {
       "fields": fields
     };
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({ 'Content-Type': 'application/json' });    
+    if (nonce && nonce.length > 0) {
+      headers.append("X-WP-Nonce", nonce);
+    }
+    
+    let options = new RequestOptions({ headers: headers });    
 
-    console.log(body);
-
-    return this.http.post(url, body, headers)
+    return this.http.post(url, body, options)
       .toPromise()
       .then(result => {
         console.log(result.json());
@@ -67,7 +59,7 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  getUniversity(uni: string, token: string): Promise<University> {
+  getUniversity(uni: string): Promise<University> {
     let url = this.wp_rest_api_url + "/universities?slug=" + uni;
     return this.http.get(url)
       .toPromise()
@@ -77,7 +69,7 @@ export class RestService {
       }).catch(this.handleError);
   }
 
-  getStudent(facebook_id: number, token: string): Promise<Student> {
+  getStudent(facebook_id: number): Promise<Student> {
     let url = this.students_url + "?per_page=" + 100; //!!! update this later in order to prevent creation of doublicates when amount of users is more than 100
     return this.http.get(url)
       .toPromise()
@@ -122,8 +114,11 @@ export class RestService {
     ) : {} as University;
   }
 
-  addUniversity(token: string, uni: University): Promise<any> {
-    let url = this.uni_url + "?access_token=" + token;
+  addUniversity(token: string, uni: University, nonce: string): Promise<any> {
+    let url = this.uni_url;
+
+    if (token && token.length > 0)
+      url += "?access_token=" + token;
 
     let fields = {
       "country": uni.country,
@@ -139,8 +134,12 @@ export class RestService {
     };
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
+    if (nonce && nonce.length > 0) {
+      headers.append("X-WP-Nonce", nonce);
+    }
 
-    return this.http.post(url, body, headers)
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(url, body, options)
       .toPromise()
       .then(result => {
         return result.json();
@@ -148,8 +147,11 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  addStudentToUniversity(token: string, uni: University, student_id: number): Promise<University> {
-    let url = this.uni_url + "/" + uni.id + "?access_token=" + token;
+  addStudentToUniversity(token: string, uni: University, student_id: number, nonce: string): Promise<University> {
+    let url = this.uni_url + "/" + uni.id;
+
+    if (token && token.length > 0)
+      url += "?access_token=" + token;
 
     let mappedStudents = uni.students.map(item => item.id);
     mappedStudents.push(student_id);
@@ -165,8 +167,13 @@ export class RestService {
     };
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
+    if (nonce && nonce.length > 0) {
+      headers.append("X-WP-Nonce", nonce);
+    }
 
-    return this.http.post(url, body, headers)
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(url, body, options)
       .toPromise()
       .then(result => {
         return this.parseUniJson(result.json());

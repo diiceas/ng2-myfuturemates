@@ -24,7 +24,9 @@ export class oAuth2Service {
   }
 
   getToken(): string {
-    return (JSON.parse(localStorage.getItem("access_token")) as TokenInfo).access_token;
+    return localStorage.getItem("access_token") ?
+      (JSON.parse(localStorage.getItem("access_token")) as TokenInfo).access_token :
+      "";
   }
 
   generateNewToken(code: string, redirect_uri): Promise<TokenInfo> {

@@ -9,6 +9,8 @@ import { FbAuthResult, AuthResponse } from '../../entities/fbAuthResult'
 import { FbMeInfo } from '../../entities/fbMeInfo'
 import { FbUserInfo } from '../../entities/fbUserInfo'
 
+declare var jQuery:any;
+
 @Component({
   selector: 'app-uni',
   templateUrl: './uni.component.html',
@@ -18,7 +20,7 @@ import { FbUserInfo } from '../../entities/fbUserInfo'
 export class UniComponent implements OnInit {
   slug: string;
   uni: University;
-
+  nonce: string;
   user: FbUserInfo;
 
   private showSuccessMessage = false;
@@ -44,12 +46,13 @@ export class UniComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit() {   
+    this.nonce = jQuery("#nonce").val();
+    
     this.route.params.subscribe(params => {
       this.slug = params["slug"];
       this.restService.getUniversity(
-        this.slug,
-        this.oAuth2Service.getToken()
+        this.slug        
       ).then(uni => {
         this.uni = uni;
         this.fbService.init();
@@ -172,8 +175,7 @@ export class UniComponent implements OnInit {
   joinUserToUni(user: FbUserInfo): Promise<University> {
     return new Promise((resolve, reject) => {
       this.restService.getStudent(
-        user.getFacebookId(),
-        this.oAuth2Service.getToken()).then(student => {
+        user.getFacebookId()).then(student => {
           //if user exists, it will be added to the university
           if (student.id) {
             this.addStudentToUni(student.id, this.uni).then(university => resolve(university));
@@ -194,7 +196,8 @@ export class UniComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.restService.addStudent(
         this.oAuth2Service.getToken(),
-        newStudent
+        newStudent,
+        this.nonce
       ).then(student => resolve(student));
     });
   }
@@ -234,7 +237,8 @@ export class UniComponent implements OnInit {
     return this.restService.addStudentToUniversity(
       this.oAuth2Service.getToken(),
       this.uni,
-      studentId
+      studentId,
+      this.nonce
     );
   }
 

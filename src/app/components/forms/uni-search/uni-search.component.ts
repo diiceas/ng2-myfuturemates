@@ -17,8 +17,8 @@ export class UniSearchComponent implements OnInit {
 
   submitBtnClicked() {
     if (this.uni_json && this.uni_json.slug) {
-      localStorage.setItem("redirect_uri", location.href + "uni/" + this.uni_json.slug);
-      this.router.navigate(['/uni', this.uni_json.slug]);
+      localStorage.setItem("redirect_uri", location.href + "universities/" + this.uni_json.slug);
+      this.router.navigate(['/universities', this.uni_json.slug]);
     }
   }
 

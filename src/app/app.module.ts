@@ -41,6 +41,16 @@ let routes: Routes = [
     canActivate: [AccessTokenGuard]
   },
   {
+    path: "universities",
+    component: UniComponent,
+    canActivate: [AccessTokenGuard]
+  },
+  {
+    path: "universities/:slug",
+    component: UniComponent,
+    canActivate: [AccessTokenGuard]
+  },
+  {
     path: "uni-import",
     component: UniImportComponent,
     canActivate: [AccessTokenGuard]
