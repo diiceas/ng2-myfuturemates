@@ -25,6 +25,7 @@ export class AccessTokenGuard implements CanActivate {
             let redirect_uri = localStorage.getItem("redirect_uri");
             if (redirect_uri == null){
                 redirect_uri = location.href;
+                localStorage.setItem("redirect_uri", redirect_uri);
             }
 
             let code = queryParams["code"];

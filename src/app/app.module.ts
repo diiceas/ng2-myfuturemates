@@ -19,7 +19,6 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { StudentsComponent } from './components/students/students.component';
 import { StudentsWithPagingComponent } from './components/students-with-paging/students-with-paging.component';
 import { UniImportComponent } from './components/uni-import/uni-import.component';
-import { JoinuniComponent } from './components/modals/joinuni/joinuni.component';
 
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { UniSearchComponent } from './components/forms/uni-search/uni-search.component';
@@ -61,7 +60,6 @@ export const appRoutingProviders: any[] = [
     StudentsComponent,
     StudentsWithPagingComponent,
     UniImportComponent,
-    JoinuniComponent,
     UniSearchComponent,
   ],
   imports: [

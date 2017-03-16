@@ -37,7 +37,7 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  addStudent(token: any, student: Student): Promise<any> {
+  addStudent(token: any, student: Student): Promise<Student> {
     let url = this.students_url + "?access_token=" + token;
     let fields = {
       "from_country": student.acf.from_country,
@@ -61,8 +61,8 @@ export class RestService {
     return this.http.post(url, body, headers)
       .toPromise()
       .then(result => {
-        console.log("Student has been added. Additional info: " + result.json());
-        return result.json();
+        console.log(result.json());
+        return result.json() as Student;
       })
       .catch(this.handleError);
   }
@@ -74,6 +74,18 @@ export class RestService {
       .then(results => {
         let parsedUni = this.parseUniJson(results.json()[0]);
         return parsedUni;
+      }).catch(this.handleError);
+  }
+
+  getStudent(facebook_id: number, token: string): Promise<Student> {
+    let url = this.students_url + "?per_page=" + 100; //!!! update this later in order to prevent creation of doublicates when amount of users is more than 100
+    return this.http.get(url)
+      .toPromise()
+      .then(results => {
+        let students = results.json().filter((student: Student) => +student.acf.facebook_id == facebook_id);
+        if (students.length > 0)
+          return students[0] as Student;
+        return {} as Student;
       }).catch(this.handleError);
   }
 
@@ -89,7 +101,7 @@ export class RestService {
           email: student.acf.email,
           picture_url: student.acf.picture_url,
           facebook_id: student.acf.facebook_id,
-          gender: student.acf.gender       
+          gender: student.acf.gender
         },
         title: {
           rendered: student.post_title
@@ -99,15 +111,15 @@ export class RestService {
       students = [] as Student[];
     };
 
-    return json ? {
-      id: json.id,
-      name: json.title.rendered,
-      country: json.acf.country,
-      alpha_two_code: json.acf.alpha_two_code,
-      domain: json.acf.domain,
-      web_page: json.acf.web_page,
-      students: students
-    } : {} as University;
+    return json ? new University(
+      json.acf.alpha_two_code,
+      json.acf.country,
+      json.acf.domain,
+      json.title.rendered,
+      json.acf.web_page,
+      json.id,
+      students
+    ) : {} as University;
   }
 
   addUniversity(token: string, uni: University): Promise<any> {
@@ -136,7 +148,7 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  addStudentToUniversity(token: string, uni: University, student_id: number): Promise<any> {
+  addStudentToUniversity(token: string, uni: University, student_id: number): Promise<University> {
     let url = this.uni_url + "/" + uni.id + "?access_token=" + token;
 
     let mappedStudents = uni.students.map(item => item.id);

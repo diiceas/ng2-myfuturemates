@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { LocalConfig } from '../../local.config';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FbAuthResult } from '../../entities/fbAuthResult';
+import { FbMeInfo } from '../../entities/fbMeInfo'
 
 declare const FB: any;
 
 @Injectable()
 export class FbService {
- 
+
   constructor() { }
 
   login(): Promise<any> {
@@ -16,7 +17,7 @@ export class FbService {
     });
   }
 
-  me(): Promise<any> {
+  me(): Promise<FbMeInfo> {
     let fields = `
       picture.width(100),
       id,
@@ -32,7 +33,7 @@ export class FbService {
       email`;
     return new Promise((resolve, reject) => {
       FB.api('/me', { fields: fields }, result => {
-        resolve(result);
+        resolve(result as FbMeInfo);
       });
     });
   }
@@ -47,10 +48,10 @@ export class FbService {
     });
   }
 
-  getLoginStatus(): Promise<any> {
+  getLoginStatus(): Promise<FbAuthResult> {
     return new Promise((resolve, reject) => {
       FB.getLoginStatus(response => {
-        resolve(response);        
+        resolve(response as FbAuthResult);
       })
     });
   }
