@@ -9,7 +9,8 @@ import { FbAuthResult, AuthResponse } from '../../entities/fbAuthResult'
 import { FbMeInfo } from '../../entities/fbMeInfo'
 import { FbUserInfo } from '../../entities/fbUserInfo'
 
-declare var jQuery:any;
+declare var jQuery: any;
+declare const FB: any;
 
 @Component({
   selector: 'app-uni',
@@ -46,13 +47,13 @@ export class UniComponent implements OnInit {
     );
   }
 
-  ngOnInit() {   
+  ngOnInit() {
     this.nonce = jQuery("#nonce").val();
-    
+
     this.route.params.subscribe(params => {
       this.slug = params["slug"];
       this.restService.getUniversity(
-        this.slug        
+        this.slug
       ).then(uni => {
         this.uni = uni;
         this.fbService.init();
@@ -124,7 +125,9 @@ export class UniComponent implements OnInit {
 
   login(): void {
     if (!this.user.isConnedted()) {
-      this.fbService.login().then((result: FbAuthResult) => {
+      // this.fbService.login().then((result: FbAuthResult) => {
+      FB.login(result => {
+        //console.log(result);
         if (result.status === "connected") {
           this.updateUserInfo().then(user => {
             if (user.isConnedted()) {
@@ -149,7 +152,8 @@ export class UniComponent implements OnInit {
           //user somehow did not manage to login
           throw ("@diiceas: user is failed to login");
         }
-      });
+      }, { scope: 'public_profile, email' });
+      // });
     }
     else {
       if (!this.user.isJoinedToUni()) {

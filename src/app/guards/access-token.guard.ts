@@ -20,13 +20,16 @@ export class AccessTokenGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        if (LocalConfig.basicAuthorization.enabled){
+            return true;
+        }
+        
         let nonce = jQuery("#nonce").val();
 
         if (nonce){
             return true;
         }
 
-        console.log("nonce not found");
         let access_token = localStorage.getItem("access_token");
         if (!access_token) {
 

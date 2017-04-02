@@ -1,10 +1,10 @@
-<header>
+<header class="header">
     <nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md ml-3 mr-3 p-0">
         <!--<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#containerNavbar" aria-controls="containerNavbar"
             aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>        -->
-        <a class="navbar-brand" routerLink="/"><img width="70" src="assets/images/logo.png"/></a>
+        <a class="navbar-brand" routerLink="/"><img width="70" src="assets/images/logo_new.png"/></a>
 
         <div class="collapse navbar-collapse" id="containerNavbar">
             <ul class="navbar-nav mr-auto">
@@ -12,20 +12,24 @@
                     <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" routerLink="/">All Students</a>
+                    <a class="nav-link" routerLink="javascript:void(0)" data-toggle="modal" data-target="#myModal">All Students</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">About</a>
+                    <a class="nav-link" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">About</a>
                 </li>
             </ul>
             <ul class="navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Login</a>
+                    <a class="nav-link" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Login</a>
                 </li>
             </ul>
         </div>
     </nav>
 </header>
+<!--
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>-->
 
 <router-outlet>
 </router-outlet>
@@ -36,19 +40,19 @@
             <div class="col-lg-5">
                 <div class="row justify-content-center justify-content-lg-start">
                     <div class="social-icons">
-                        <a class="ml-1 mr-1" routerLink="/uni">
+                        <a class="ml-1 mr-1" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-twitter" aria-hidden="true"></i>
                         </a>
-                        <a class="ml-1 mr-1" routerLink="/uni">
+                        <a class="ml-1 mr-1" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-facebook" aria-hidden="true"></i>
                         </a>
-                        <a class="ml-1 mr-1" routerLink="/uni">
+                        <a class="ml-1 mr-1" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-google-plus" aria-hidden="true"></i>
                         </a>
-                        <a class="ml-1 mr-1" routerLink="/uni">
+                        <a class="ml-1 mr-1" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-linkedin" aria-hidden="true"></i>
                         </a>
-                        <a class="ml-1 mr-1" routerLink="/uni">
+                        <a class="ml-1 mr-1" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-youtube-play" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -57,14 +61,46 @@
             <div class="col-lg-7 mt-3 mt-lg-0">
                 <div class="row justify-content-center justify-content-lg-end">
                     <div class="bottom-menu text-center">
-                        <a class="ml-2 mr-2" routerLink="/uni">All Students</a>
-                        <a class="ml-2 mr-2" routerLink="/">Terms</a>
-                        <a class="ml-2 mr-2" routerLink="/">Cookies</a>
-                        <a class="ml-2 mr-2" routerLink="/">Contant</a>                        
-                        <a class="ml-2 mr-2" routerLink="/">About</a>
+                        <a class="ml-2 mr-2" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">All Students</a>
+                        <a class="ml-2 mr-2" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Terms</a>
+                        <a class="ml-2 mr-2" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Cookies</a>
+                        <a class="ml-2 mr-2" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Contant</a>                        
+                        <a class="ml-2 mr-2" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">About</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">WARNING: Beta version</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Hi there!<p>
+            <p>Thanks for visiting <a href="http://myfuturemates.com">http://myfuturemates.com</a>!</p>
+            <p>The site is currently in <i>beta version</i>. The official launch will be on April 1th, 2017</p>
+            <p>
+                Meantime feel free to find and join your university. If you didn't find your university please check out again on 1th of April, 2017 when the database of 10000 universities will be available for your disposal.
+            </p>
+            <p>
+                More functionality is comming!
+            </p>
+            <hr/>
+            <p>
+                <i>Yury TATSENKA, founder of</i> <a class="navbar-brand" routerLink="/"><img width="70" src="assets/images/logo_new.png"/></a>
+            </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="/">Find University</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

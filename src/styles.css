@@ -34,6 +34,13 @@ a.borderless, div.borderless {
     margin-top:5em;
 }
 
+.showButton{
+    /*font-size: 30px;*/
+    font-size:1.2em;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
 .container-home-search{
     height:135px;
 }
@@ -86,15 +93,21 @@ input[type="text"]:focus{
     background-color: rgba(245, 245, 245, 0);
 }
 
+.header{
+    background-color: rgba(190,190,190,0.1);
+}
+
 /*Sticky footer styles*/
 html {
   position: relative;
   min-height: 100%;
+  margin-top: 0px !important;
 }
 body {
   /* Margin bottom by footer height */
   margin-bottom: 100px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;

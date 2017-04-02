@@ -43,20 +43,27 @@ export class RestService {
       "fields": fields
     };
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });    
-    if (nonce && nonce.length > 0) {
-      headers.append("X-WP-Nonce", nonce);
-    }
-    
-    let options = new RequestOptions({ headers: headers });    
-
-    return this.http.post(url, body, options)
-      .toPromise()
-      .then(result => {
-        console.log(result.json());
-        return result.json() as Student;
-      })
-      .catch(this.handleError);
+    return new Promise((resolve, reject) => {
+      var createPost = new XMLHttpRequest();      
+      createPost.open("POST", url);      
+      createPost.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      if (nonce && nonce.length > 0) {
+        createPost.setRequestHeader("X-WP-Nonce", nonce);
+      }
+      if (LocalConfig.basicAuthorization.enabled) {        
+         createPost.setRequestHeader("Authorization", LocalConfig.basicAuthorization.balueBase64);
+      }
+      createPost.send(JSON.stringify(body));
+      createPost.onreadystatechange = function () {
+        if (createPost.readyState == 4) {
+          if (createPost.status == 201) {            
+            resolve(JSON.parse(createPost.response.split("</body>")[1]));
+          } else {
+            alert("Error - try again.");
+          }
+        }
+      }
+    });
   }
 
   getUniversity(uni: string): Promise<University> {
@@ -138,6 +145,10 @@ export class RestService {
       headers.append("X-WP-Nonce", nonce);
     }
 
+    if (LocalConfig.basicAuthorization.enabled) {
+      headers.append("Authorization", LocalConfig.basicAuthorization.balueBase64);
+    }
+
     let options = new RequestOptions({ headers: headers });
     return this.http.post(url, body, options)
       .toPromise()
@@ -169,6 +180,10 @@ export class RestService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     if (nonce && nonce.length > 0) {
       headers.append("X-WP-Nonce", nonce);
+    }
+
+    if (LocalConfig.basicAuthorization.enabled) {
+      headers.append("Authorization", LocalConfig.basicAuthorization.balueBase64);
     }
 
     let options = new RequestOptions({ headers: headers });

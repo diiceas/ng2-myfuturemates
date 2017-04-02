@@ -8,10 +8,8 @@ import { Student } from '../../entities/student'
 })
 export class StudentsComponent implements OnInit {
   @Input() students: Student[];
-  
+
   constructor() { }
-  
-  ngOnInit() {
-    // console.log(this.students);
-   }
+
+  ngOnInit() { }
 }

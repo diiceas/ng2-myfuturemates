@@ -13,9 +13,10 @@ export class JsonService {
   constructor(private http: Http) {
   }
 
-  public getUniversities(count: number): Observable<any> {
+  public getUniversities(from: number, to: number): Observable<any> {
     return this.http.get(this.worldUniversitiesJsonURL)
-      .map((res: any) => res.json().slice(0, count))
+      .map((res: any) => res.json().slice(from, to))
+      //.map((res: any) => res.json())
       .catch(this.handleError);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalConfig } from '../../../local.config'
 
@@ -10,10 +10,22 @@ import { LocalConfig } from '../../../local.config'
 export class UniSearchComponent implements OnInit {
   uniSource = LocalConfig.universities.wordpress.jsonSearchURL;
   private uni_json: any;
+  searchFieldChange = new EventEmitter();
+
+  searchFieldValue: string;
 
   constructor(
     private router: Router
   ) { }
+
+  searchValueChanged(value: any) {
+    this.searchFieldValue = this.escapeHtml(this.searchFieldValue);
+  }
+
+  escapeHtml(unsafe: string) {
+    unsafe = String(unsafe);
+    return unsafe.replace("&#8217;", "'");
+  }
 
   submitBtnClicked() {
     if (this.uni_json && this.uni_json.slug) {

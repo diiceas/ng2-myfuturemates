@@ -22,12 +22,13 @@
         Please join and become first student!
       </p>
       <pre></pre>
-      <button *ngIf="showJoinButton()" class="btn btn-primary" (click)="this.login()">Join</button>
+      <button *ngIf="showJoinButton()" class="btn btn-primary showButton" (click)="this.login();"> JOIN via <i class="fa fa-facebook-square" aria-hidden="true"></i></button>      
       <div *ngIf="this.showSuccessMessage" class="alert alert-success">
         <strong>Well done!</strong> You have been successfully joined to the community of {{this.uni?.name}}!
       </div>
       <div *ngIf="this.showAlreadyJoinedMessage" class="alert alert-success">
-        Dear <strong>{{this.getJoinedStudentInfo().title.rendered}}</strong>, you have been already joined the community of {{this.uni?.name}} earlier! Feel free to share this website with your friends:)
+        Dear <strong>{{this.getJoinedStudentInfo().title.rendered}}</strong>, you have been already joined the community
+        of {{this.uni?.name}} earlier! Feel free to share this website with your friends:)
       </div>
       <div *ngIf="this.showLoader" lass="loaderWrap">
         <div class="loader"></div>

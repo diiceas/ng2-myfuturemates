@@ -7,7 +7,7 @@ import { ActivatedRoute, Params } from '@angular/router'
 import 'rxjs/add/operator/map'
 import { LocalConfig } from '../../local.config'
 
-declare var jQuery:any;
+declare var jQuery: any;
 
 @Component({
   selector: 'app-uni-import',
@@ -19,7 +19,8 @@ export class UniImportComponent {
   private wordpressUniversitiesJsonURL = LocalConfig.universities.wordpress.jsonURL; //for label use only. Delete later if not needed
   private worldUniversitiesSearchApiUrl = LocalConfig.universities.world.searchApiURL; //for label use only. Delete later if not needed
   private wordpressUniversitiesAdminUrl = LocalConfig.universities.wordpress.adminURL; //for label use only. Delete later if not needed
-  private readonly countToImport = 50;
+  private readonly from = 800;
+  private readonly to = 1000;
   private nonce: string;
 
   constructor(
@@ -32,8 +33,10 @@ export class UniImportComponent {
   }
 
   import() {
-    this.jsonService.getUniversities(this.countToImport)
-      .subscribe(result => this.addUniArray(result as University[]));
+    this.jsonService.getUniversities(this.from, this.to)
+      .subscribe(result => {
+        this.addUniArray(result as University[])
+      });
   }
 
   addUniArray(universities: University[]) {
